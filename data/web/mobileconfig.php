@@ -2,7 +2,7 @@
 require_once 'inc/prerequisites.inc.php';
 
 if (empty($mailcow_hostname)) {
-  exit();
+  //exit();
 }
 if (!isset($_SESSION['mailcow_cc_role']) || $_SESSION['mailcow_cc_role'] != 'user') {
   session_destroy();
@@ -10,7 +10,7 @@ if (!isset($_SESSION['mailcow_cc_role']) || $_SESSION['mailcow_cc_role'] != 'use
   $append_get = (isset($_GET['only_email'])) ? '&only_email' : '';
   $append_get .= (isset($_GET['app_password'])) ? '&app_password' : '';
   header('Location: index.php?mobileconfig' . $append_get);
-  die();
+  //die();
 }
 
 error_reporting(0);
@@ -34,15 +34,15 @@ catch(PDOException $e) {
 
 if (isset($_GET['only_email'])) {
   $onlyEmailAccount = true;
-  $description = 'IMAP';  
+  $description = 'IMAP';
 } else {
   $onlyEmailAccount = false;
-  $description = 'IMAP, CalDAV, CardDAV'; 
+  $description = 'IMAP, CalDAV, CardDAV';
 }
 if (isset($_GET['app_password'])) {
   $app_password = true;
   $description .= ' with application password';
-  
+
   if (strpos($_SERVER['HTTP_USER_AGENT'], 'iPad') !== FALSE)
       $platform = 'iPad';
   elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'iPhone') !== FALSE)
@@ -51,7 +51,7 @@ if (isset($_GET['app_password'])) {
       $platform = 'Mac';
   else
       $platform = $_SERVER['HTTP_USER_AGENT'];
-  
+
   $password = bin2hex(openssl_random_pseudo_bytes(16));
   $attr = array(
       'app_name' => $platform,

@@ -9,7 +9,7 @@ $autodiscover_config = array_merge($default_autodiscover_config, $autodiscover_c
 error_reporting(0);
 
 if (empty($mailcow_hostname)) {
-  exit();
+  //exit();
 }
 
 $domain_dot = strpos($_SERVER['HTTP_HOST'], '.');

@@ -32,11 +32,11 @@ if (!empty($_GET['hash']) && ctype_alnum($_GET['hash'])) {
   $mailc = quarantine('hash_details', $_GET['hash']);
   if ($mailc === false) {
     echo json_encode(array('error' => 'Message invalid'));
-    exit;
+    //exit;
   }
   if (strlen($mailc['msg']) > 10485760) {
     echo json_encode(array('error' => 'Message size exceeds 10 MiB.'));
-    exit;
+    //exit;
   }
   if (!empty($mailc['msg'])) {
     // Init message array
@@ -74,28 +74,28 @@ if (!empty($_GET['hash']) && ctype_alnum($_GET['hash'])) {
 elseif (!empty($_GET['id']) && ctype_alnum($_GET['id'])) {
   if (!isset($_SESSION['mailcow_cc_role'])) {
     echo json_encode(array('error' => 'Access denied'));
-    exit();
+    //exit();
   }
   $tmpdir = '/tmp/' . $_GET['id'] . '/';
   $mailc = quarantine('details', $_GET['id']);
   if ($mailc === false) {
     echo json_encode(array('error' => 'Access denied'));
-    exit;
+    //exit;
   }
   if (strlen($mailc['msg']) > 10485760) {
     echo json_encode(array('error' => 'Message size exceeds 10 MiB.'));
-    exit;
+    //exit;
   }
   if (!empty($mailc['msg'])) {
     if (isset($_GET['quick_release'])) {
       $hash = hash('sha256', $mailc['id'] . $mailc['qid']);
       header('Location: /qhandler/release/' . $hash);
-      exit;
+      //exit;
     }
     if (isset($_GET['quick_delete'])) {
       $hash = hash('sha256', $mailc['id'] . $mailc['qid']);
       header('Location: /qhandler/delete/' . $hash);
-      exit;
+      //exit;
     }
     // Init message array
     $data = array();
@@ -176,11 +176,11 @@ elseif (!empty($_GET['id']) && ctype_alnum($_GET['id'])) {
       header('Content-Transfer-Encoding: binary');
       header('Content-Length: ' . strlen($mailc['msg']));
       echo $mailc['msg'];
-      exit;
+      //exit;
     }
     if (isset($_GET['att'])) {
       if ($_SESSION['acl']['quarantine_attachments'] == 0) {
-        exit(json_encode('Forbidden'));
+        //exit(json_encode('Forbidden'));
       }
       $dl_id = intval($_GET['att']);
       $dl_filename = filter_var($data['attachments'][$dl_id][0], FILTER_SANITIZE_STRING);
@@ -197,7 +197,7 @@ elseif (!empty($_GET['id']) && ctype_alnum($_GET['id'])) {
         header('Content-Transfer-Encoding: binary');
         header('Content-Length: ' . $data['attachments'][$dl_id][2]);
         readfile($tmpdir . $dl_filename);
-        exit;
+        //exit;
       }
     }
     echo json_encode($data);

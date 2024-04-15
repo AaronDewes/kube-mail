@@ -4,7 +4,7 @@
 header('Content-Type: text/plain');
 require_once "vars.inc.php";
 // Do not show errors, we log to using error_log
-ini_set('error_reporting', 0);
+// ini_set('error_reporting', 0);
 // Init database
 //$dsn = $database_type . ':host=' . $database_host . ';dbname=' . $database_name;
 $dsn = $database_type . ":unix_socket=" . $database_sock . ";dbname=" . $database_name;
@@ -19,7 +19,7 @@ try {
 catch (PDOException $e) {
   error_log("FOOTER: " . $e . PHP_EOL);
   http_response_code(501);
-  exit;
+  //exit;
 }
 
 if (!function_exists('getallheaders'))  {
@@ -57,7 +57,7 @@ error_log("FOOTER: checking for domain " . $domain . ", user " . $username . " a
 
 try {
   // try get $target_domain if $domain is an alias_domain
-  $stmt = $pdo->prepare("SELECT `target_domain` FROM `alias_domain` 
+  $stmt = $pdo->prepare("SELECT `target_domain` FROM `alias_domain`
     WHERE `alias_domain` = :alias_domain");
   $stmt->execute(array(
     ':alias_domain' => $domain
@@ -70,7 +70,7 @@ try {
   }
 
   // get footer associated with the domain
-  $stmt = $pdo->prepare("SELECT `plain`, `html`, `mbox_exclude`, `alias_domain_exclude`, `skip_replies` FROM `domain_wide_footer` 
+  $stmt = $pdo->prepare("SELECT `plain`, `html`, `mbox_exclude`, `alias_domain_exclude`, `skip_replies` FROM `domain_wide_footer`
     WHERE `domain` = :domain");
   $stmt->execute(array(
     ':domain' => $target_domain
@@ -86,7 +86,7 @@ try {
   }
   if (empty($footer)){
     echo $empty_footer;
-    exit;
+    //exit;
   }
   error_log("FOOTER: " . json_encode($footer) . PHP_EOL);
 
@@ -104,7 +104,7 @@ try {
 catch (Exception $e) {
   error_log("FOOTER: " . $e->getMessage() . PHP_EOL);
   http_response_code(502);
-  exit;
+  //exit;
 }
 
 

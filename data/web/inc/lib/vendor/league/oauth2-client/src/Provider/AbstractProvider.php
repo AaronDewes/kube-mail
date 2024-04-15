@@ -504,7 +504,7 @@ abstract class AbstractProvider
 
         // @codeCoverageIgnoreStart
         header('Location: ' . $url);
-        exit;
+        //exit;
         // @codeCoverageIgnoreEnd
     }
 

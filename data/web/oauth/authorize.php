@@ -11,7 +11,7 @@ $response = new OAuth2\Response();
 
 if (!$oauth2_server->validateAuthorizeRequest($request, $response)) {
   $response->send();
-  exit;
+  //exit;
 }
 
 if (!isset($_POST['authorized'])) {
@@ -21,7 +21,7 @@ if (!isset($_POST['authorized'])) {
   $template_data = [];
 
   require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/footer.inc.php';
-  exit;
+  //exit;
 }
 
 // print the authorization code if the user has authorized your client
@@ -34,5 +34,5 @@ if ($is_authorized) {
     session_destroy();
   }
   header('Location: ' . $response->getHttpHeader('Location'));
-  exit;
+  //exit;
 }

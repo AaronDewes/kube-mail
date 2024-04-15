@@ -135,7 +135,7 @@ class SSP {
 					$dir = $request['order'][$i]['dir'] === 'asc' ?
 						'ASC' :
 						'DESC';
-						
+
                     if(isset($column['order_subquery'])) {
         				$selects[] = '('.$column['order_subquery'].') AS `'.$column['db'].'_count`';
         				$orderBy[] = '`'.$column['db'].'_count` '.$dir;
@@ -191,7 +191,7 @@ class SSP {
 				if ( $requestColumn['searchable'] == 'true' ) {
 					if(!empty($column['db'])){
     					$binding = self::bind( $bindings, '%'.$str.'%', PDO::PARAM_STR );
-    					
+
     					if(isset($column['search']['join'])) {
             				$joins[] = $column['search']['join'];
             				$globalSearch[] = $column['search']['where_column'].' LIKE '.$binding;
@@ -234,7 +234,7 @@ class SSP {
 				implode(' AND ', $columnSearch) :
 				$where .' AND '. implode(' AND ', $columnSearch);
 		}
-		
+
 		$join = '';
 		if( count($joins) ) {
     		$join = implode(' ', $joins);
@@ -534,7 +534,7 @@ class SSP {
 			"error" => $msg
 		) );
 
-		exit(0);
+		//exit(0);
 	}
 
 	/**

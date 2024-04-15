@@ -2,13 +2,13 @@
 
 if (!isset($_GET['file']) ) {
     http_response_code(404);
-    exit;
+    //exit;
 }
 $pathinfo = pathinfo($_GET['file']);
 
 if (!array_key_exists('extension', $pathinfo)) {
     http_response_code(404);
-    exit;
+    //exit;
 }
 $extension = strtolower($pathinfo['extension']);
 
@@ -25,7 +25,7 @@ if (file_exists($filepath)) {
         header('Content-Type: text/css');
     } else {
         //currently just css and js should be supported!
-        exit();
+        //exit();
     }
 
     header("Expires: $expires");

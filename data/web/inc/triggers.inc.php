@@ -6,7 +6,7 @@ if ($iam_provider){
     $redirect_uri = identity_provider('get-redirect', array('iam_provider' => $iam_provider));
     $redirect_uri = !empty($redirect_uri) ? $redirect_uri : '/';
     header('Location: ' . $redirect_uri);
-    die();
+    //die();
   }
   if ($_SESSION['iam_token'] && $_SESSION['iam_refresh_token']) {
     // Session found, try to refresh
@@ -17,7 +17,7 @@ if ($iam_provider){
       $redirect_uri = identity_provider('get-redirect', array('iam_provider' => $iam_provider));
       $redirect_uri = !empty($redirect_uri) ? $redirect_uri : '/';
       header('Location: ' . $redirect_uri);
-      die();
+      //die();
     }
   } elseif ($_GET['code'] && $_GET['state'] === $_SESSION['oauth2state']) {
     // Check given state against previously stored one to mitigate CSRF attack
@@ -45,10 +45,10 @@ if (isset($_POST["verify_tfa_login"])) {
     $is_dual = (!empty($_SESSION["dual-login"]["username"])) ? true : false;
     if (intval($user_details['attributes']['sogo_access']) == 1 && !$is_dual) {
       header("Location: /SOGo/so/{$_SESSION['mailcow_cc_username']}");
-      die();
+      //die();
     } else {
       header("Location: /user");
-      die();
+      //die();
     }
   } else {
     unset($_SESSION['pending_mailcow_cc_username']);
@@ -94,20 +94,20 @@ if (isset($_POST["login_user"]) && isset($_POST["pass_user"])) {
     if (in_array('mobileconfig', $http_parameters)) {
         if (in_array('only_email', $http_parameters)) {
             header("Location: /mobileconfig.php?only_email");
-            die();
+            //die();
         }
         header("Location: /mobileconfig.php");
-        die();
+        //die();
     }
 
     $user_details = mailbox("get", "mailbox_details", $login_user);
     $is_dual = (!empty($_SESSION["dual-login"]["username"])) ? true : false;
     if (intval($user_details['attributes']['sogo_access']) == 1 && !$is_dual) {
       header("Location: /SOGo/so/{$login_user}");
-      die();
+      //die();
     } else {
       header("Location: /user");
-      die();
+      //die();
     }
 	}
 	elseif ($as != "pending") {

@@ -3,7 +3,7 @@ session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/prerequisites.inc.php';
 if (quarantine('hash_details', $_GET['hash']) === false && !isset($_POST)) {
   header('Location: /admin');
-  exit();
+  //exit();
 }
 require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/header.inc.php';
 

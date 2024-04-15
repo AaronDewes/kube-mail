@@ -20,7 +20,7 @@ try {
 catch (PDOException $e) {
   logMsg("err", $e->getMessage());
   session_destroy();
-  exit;
+  //exit;
 }
 
 // Init Redis
@@ -36,7 +36,7 @@ try {
 catch (Exception $e) {
   echo "Exiting: " . $e->getMessage();
   session_destroy();
-  exit;
+  //exit;
 }
 
 function logMsg($priority, $message, $task = "Keycloak Sync") {
@@ -73,7 +73,7 @@ $_SESSION['acl']['unlimited_quota'] = "1";
 $iam_settings = identity_provider('get');
 if ($iam_settings['authsource'] != "keycloak" || (intval($iam_settings['periodic_sync']) != 1 && intval($iam_settings['import_users']) != 1)) {
   session_destroy();
-  exit;
+  //exit;
 }
 
 // Set pagination variables
@@ -91,14 +91,14 @@ if (file_exists($lock_file)) {
     if ($elapsed_time < intval($iam_settings['sync_interval'])) {
       logMsg("warning", "Sync not ready (".number_format((float)$elapsed_time, 2, '.', '')."min / ".$iam_settings['sync_interval']."min)");
       session_destroy();
-      exit;
+      //exit;
     }
   }
 
   if (posix_kill($pid, 0)) {
     logMsg("warning", "Sync is already running");
     session_destroy();
-    exit;
+    //exit;
   } else {
     unlink($lock_file);
   }
@@ -114,7 +114,7 @@ $iam_provider = identity_provider('init');
 while (true) {
   // Get admin access token
   $admin_token = identity_provider("get-keycloak-admin-token");
-  
+
   // Make the API request to retrieve the users
   $url = "{$iam_settings['server_url']}/admin/realms/{$iam_settings['realm']}/users?first=$start&max=$max";
   $ch = curl_init();
@@ -127,11 +127,11 @@ while (true) {
   $response = curl_exec($ch);
   $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
   curl_close($ch);
-  
+
   if ($code != 200){
     logMsg("err", "Recieved HTTP {$code}");
     session_destroy();
-    exit;
+    //exit;
   }
   try {
     $response = json_decode($response, true);
@@ -157,8 +157,8 @@ while (true) {
       logMsg("warning", "No attributes in keycloak found for user " . $user['email']);
       continue;
     }
-    if (!isset($user['attributes']['mailcow_template']) || 
-        !is_array($user['attributes']['mailcow_template']) || 
+    if (!isset($user['attributes']['mailcow_template']) ||
+        !is_array($user['attributes']['mailcow_template']) ||
         count($user['attributes']['mailcow_template']) == 0) {
       logMsg("warning", "No mailcow_template in keycloak found for user " . $user['email']);
       continue;
@@ -212,7 +212,7 @@ while (true) {
 
     sleep(0.025);
   }
-  
+
   // Update the pagination variables for the next batch
   $start += $max;
   sleep(1);

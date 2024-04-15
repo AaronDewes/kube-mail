@@ -204,7 +204,7 @@ trait EnumeratesValues
     {
         $this->dump(...$args);
 
-        exit(1);
+        //exit(1);
     }
 
     /**

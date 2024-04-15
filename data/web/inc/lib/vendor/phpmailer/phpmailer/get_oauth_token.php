@@ -55,7 +55,7 @@ if (!isset($_GET['code']) && !isset($_GET['provider'])) {
 </body>
 </html>
     <?php
-    exit;
+    //exit;
 }
 
 require 'vendor/autoload.php';
@@ -71,7 +71,7 @@ if (array_key_exists('provider', $_GET)) {
     $providerName = $_SESSION['provider'];
 }
 if (!in_array($providerName, ['Google', 'Microsoft', 'Yahoo'])) {
-    exit('Only Google, Microsoft and Yahoo OAuth2 providers are currently supported in this script.');
+    //exit('Only Google, Microsoft and Yahoo OAuth2 providers are currently supported in this script.');
 }
 
 //These details are obtained by setting up an app in the Google developer console,
@@ -117,7 +117,7 @@ switch ($providerName) {
 }
 
 if (null === $provider) {
-    exit('Provider missing');
+    //exit('Provider missing');
 }
 
 if (!isset($_GET['code'])) {
@@ -125,12 +125,12 @@ if (!isset($_GET['code'])) {
     $authUrl = $provider->getAuthorizationUrl($options);
     $_SESSION['oauth2state'] = $provider->getState();
     header('Location: ' . $authUrl);
-    exit;
+    //exit;
     //Check given state against previously stored one to mitigate CSRF attack
 } elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
     unset($_SESSION['oauth2state']);
     unset($_SESSION['provider']);
-    exit('Invalid state');
+    //exit('Invalid state');
 } else {
     unset($_SESSION['provider']);
     //Try to get an access token (using the authorization code grant)

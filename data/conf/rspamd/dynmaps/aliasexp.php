@@ -4,7 +4,7 @@
 header('Content-Type: text/plain');
 require_once "vars.inc.php";
 // Do not show errors, we log to using error_log
-ini_set('error_reporting', 0);
+// ini_set('error_reporting', 0);
 // Init database
 //$dsn = $database_type . ':host=' . $database_host . ';dbname=' . $database_name;
 $dsn = $database_type . ":unix_socket=" . $database_sock . ";dbname=" . $database_name;
@@ -19,7 +19,7 @@ try {
 catch (PDOException $e) {
   error_log("ALIASEXP: " . $e . PHP_EOL);
   http_response_code(501);
-  exit;
+  //exit;
 }
 
 // Init Redis
@@ -60,13 +60,13 @@ $rcpt_final_mailboxes = array();
 // Skip if not a mailcow handled domain
 try {
   if (!$redis->hGet('DOMAIN_MAP', $parsed_rcpt['domain'])) {
-    exit;
+    //exit;
   }
 }
 catch (RedisException $e) {
   error_log("ALIASEXP: " . $e . PHP_EOL);
   http_response_code(504);
-  exit;
+  //exit;
 }
 
 // Always assume rcpt is not a final mailbox but an alias for a mailbox or further aliases
@@ -164,7 +164,7 @@ try {
 catch (PDOException $e) {
   error_log("ALIAS EXPANDER: " . $e->getMessage() . PHP_EOL);
   http_response_code(502);
-  exit;
+  //exit;
 }
 
 // Does also return the mailbox name if question == answer (query == mailbox)

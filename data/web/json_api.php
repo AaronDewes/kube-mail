@@ -50,7 +50,7 @@ function api_log($_data) {
 // Block requests not intended for direct API use by checking the 'Sec-Fetch-Dest' header.
 if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] !== 'empty') {
   header('HTTP/1.1 403 Forbidden');
-  exit;
+  //exit;
 }
 
 if (isset($_GET['query'])) {
@@ -73,7 +73,7 @@ if (isset($_GET['query'])) {
           'type' => 'error',
           'msg' => 'Request body doesn\'t contain valid json!'
       ));
-      exit;
+      //exit;
     }
 
     // add
@@ -108,7 +108,7 @@ if (isset($_GET['query'])) {
             'type' => 'error',
             'msg' => 'API read/write access denied'
         ));
-        exit();
+        //exit();
       }
       function process_add_return($return) {
         $generic_failure = json_encode(array(
@@ -128,7 +128,7 @@ if (isset($_GET['query'])) {
       }
       if (!isset($_POST['attr']) && $category != "fido2-registration" && $category != "webauthn-tfa-registration") {
         echo $request_incomplete;
-        exit;
+        //exit;
       }
       else {
         if ($category != "fido2-registration" && $category != "webauthn-tfa-registration") {
@@ -143,7 +143,7 @@ if (isset($_GET['query'])) {
             'type' => 'error',
             'msg' => 'only POST method is allowed'
         ));
-        exit();
+        //exit();
       }
 
       switch ($category) {
@@ -166,17 +166,17 @@ if (isset($_GET['query'])) {
               $return->success = false;
               $return->msg = $ex->getMessage();
               echo json_encode($return);
-              exit;
+              //exit;
             }
             fido2(array("action" => "register", "registration" => $data));
             $return = new stdClass();
             $return->success = true;
             echo json_encode($return);
-            exit;
+            //exit;
           }
           else {
             echo $request_incomplete;
-            exit;
+            //exit;
           }
         break;
         case "webauthn-tfa-registration":
@@ -207,7 +207,7 @@ if (isset($_GET['query'])) {
                 $return->success = false;
                 $return->msg = $ex->getMessage();
                 echo json_encode($return);
-                exit;
+                //exit;
               }
 
 
@@ -215,12 +215,12 @@ if (isset($_GET['query'])) {
               $return = new stdClass();
               $return->success = true;
               echo json_encode($return);
-              exit;
+              //exit;
             }
             else {
               // err - request incomplete
               echo $request_incomplete;
-              exit;
+              //exit;
             }
         break;
         case "time_limited_alias":
@@ -300,7 +300,7 @@ if (isset($_GET['query'])) {
               $data = domain_admin_sso('issue', $attr);
               if($data) {
                 echo json_encode($data);
-                exit(0);
+                //exit(0);
               }
               process_add_return($data);
             break;
@@ -331,7 +331,7 @@ if (isset($_GET['query'])) {
             'type' => 'error',
             'msg' => 'route not found'
           ));
-          exit();
+          //exit();
       }
     break;
     case "process":
@@ -342,7 +342,7 @@ if (isset($_GET['query'])) {
             'type' => 'error',
             'msg' => 'only POST method is allowed'
         ));
-        exit();
+        //exit();
       }
       switch ($category) {
         case "fido2-args":
@@ -361,7 +361,7 @@ if (isset($_GET['query'])) {
             $return = new stdClass();
             $return->success = false;
             echo json_encode($return);
-            exit;
+            //exit;
           }
           try {
             $WebAuthn->processGet($clientDataJSON, $authenticatorData, $signature, $process_fido2['pub_key'], $challenge, null, $GLOBALS['FIDO2_UV_FLAG_LOGIN'], $GLOBALS['FIDO2_USER_PRESENT_FLAG']);
@@ -371,7 +371,7 @@ if (isset($_GET['query'])) {
             $return = new stdClass();
             $return->success = false;
             echo json_encode($return);
-            exit;
+            //exit;
           }
           $return = new stdClass();
           $return->success = true;
@@ -395,7 +395,7 @@ if (isset($_GET['query'])) {
           if (empty($_SESSION["mailcow_cc_role"])) {
             session_unset();
             session_destroy();
-            exit;
+            //exit;
           }
           $_SESSION["mailcow_cc_username"] = $process_fido2['username'];
           $_SESSION["fido2_cid"] = $process_fido2['cid'];
@@ -426,7 +426,7 @@ if (isset($_GET['query'])) {
             'type' => 'error',
             'msg' => 'only GET method is allowed'
         ));
-        exit();
+        //exit();
       }
       switch ($category) {
         // fido2
@@ -498,7 +498,7 @@ if (isset($_GET['query'])) {
                 'type' => 'error',
                 'msg' => 'Cannot find matching credentialIds'
             )));
-            exit;
+            //exit;
           }
           while($row = array_shift($rows)) {
             $cids[] = base64_decode($row['keyHandle']);
@@ -509,7 +509,7 @@ if (isset($_GET['query'])) {
           print(json_encode($getArgs));
           $_SESSION['challenge'] = $WebAuthn->getChallenge();
           return;
-        break;          
+        break;
         case "fail2ban":
           if (!isset($_SESSION['mailcow_cc_role'])){
             switch ($object) {
@@ -1074,7 +1074,7 @@ if (isset($_GET['query'])) {
                   'type' => 'error',
                   'msg' => 'route not found'
                 ));
-                exit();
+                //exit();
             }
           break;
           case "mailbox":
@@ -1718,7 +1718,7 @@ if (isset($_GET['query'])) {
             'type' => 'error',
             'msg' => 'route not found'
           ));
-          exit();
+          //exit();
         }
       }
     break;
@@ -1729,7 +1729,7 @@ if (isset($_GET['query'])) {
             'type' => 'error',
             'msg' => 'API read/write access denied'
         ));
-        exit();
+        //exit();
       }
       function process_delete_return($return) {
         $generic_failure = json_encode(array(
@@ -1749,7 +1749,7 @@ if (isset($_GET['query'])) {
       }
       if (!isset($_POST['items'])) {
         echo $request_incomplete;
-        exit;
+        //exit;
       }
       else {
         $items = (array)json_decode($_POST['items'], true);
@@ -1761,7 +1761,7 @@ if (isset($_GET['query'])) {
             'type' => 'error',
             'msg' => 'only POST method is allowed'
         ));
-        exit();
+        //exit();
       }
       switch ($category) {
         case "alias":
@@ -1873,7 +1873,7 @@ if (isset($_GET['query'])) {
             'type' => 'error',
             'msg' => 'route not found'
           ));
-          exit();
+          //exit();
       }
     break;
     case "edit":
@@ -1883,7 +1883,7 @@ if (isset($_GET['query'])) {
             'type' => 'error',
             'msg' => 'API read/write access denied'
         ));
-        exit();
+        //exit();
       }
       function process_edit_return($return) {
         $generic_failure = json_encode(array(
@@ -1903,7 +1903,7 @@ if (isset($_GET['query'])) {
       }
       if (!isset($_POST['attr'])) {
         echo $request_incomplete;
-        exit;
+        //exit;
       }
       else {
         $attr = (array)json_decode($_POST['attr'], true);
@@ -1917,7 +1917,7 @@ if (isset($_GET['query'])) {
             'type' => 'error',
             'msg' => 'only POST method is allowed'
         ));
-        exit();
+        //exit();
       }
       switch ($category) {
         case "bcc":
@@ -2101,7 +2101,7 @@ if (isset($_GET['query'])) {
             'type' => 'error',
             'msg' => 'route not found'
           ));
-          exit();
+          //exit();
       }
     break;
     // return no route found if no case is matched
@@ -2111,7 +2111,7 @@ if (isset($_GET['query'])) {
         'type' => 'error',
         'msg' => 'route not found'
       ));
-      exit();
+      //exit();
   }
 }
 if (array_key_exists('mailcow_cc_api', $_SESSION) && $_SESSION['mailcow_cc_api'] === true) {

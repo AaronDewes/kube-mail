@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/plain');
-ini_set('error_reporting', 0);
+// ini_set('error_reporting', 0);
 
 $redis = new Redis();
 $redis->connect('redis-mailcow', 6379);
@@ -33,14 +33,14 @@ if (isset($_GET['host'])) {
     foreach ($redis->hGetAll('WHITELISTED_FWD_HOST') as $host => $source) {
       if (in_net($_GET['host'], $host)) {
         echo '200 PERMIT';
-        exit;
+        //exit;
       }
     }
     echo '200 DUNNO';
   }
   catch (RedisException $e) {
     echo '200 DUNNO';
-    exit;
+    //exit;
   }
 } else {
   try {
@@ -51,7 +51,7 @@ if (isset($_GET['host'])) {
   }
   catch (RedisException $e) {
     echo '240.240.240.240' . PHP_EOL;
-    exit;
+    //exit;
   }
 }
 ?>

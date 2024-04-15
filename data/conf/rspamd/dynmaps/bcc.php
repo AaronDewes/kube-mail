@@ -4,7 +4,7 @@
 header('Content-Type: text/plain');
 require_once "vars.inc.php";
 // Do not show errors, we log to using error_log
-ini_set('error_reporting', 0);
+// ini_set('error_reporting', 0);
 // Init database
 //$dsn = $database_type . ':host=' . $database_host . ';dbname=' . $database_name;
 $dsn = $database_type . ":unix_socket=" . $database_sock . ";dbname=" . $database_name;
@@ -19,7 +19,7 @@ try {
 catch (PDOException $e) {
   error_log("BCC MAP SQL ERROR: " . $e . PHP_EOL);
   http_response_code(501);
-  exit;
+  //exit;
 }
 
 function parse_email($email) {
@@ -63,7 +63,7 @@ try {
       error_log("BCC MAP: returning ". $bcc_dest . " for " . $rcpt . PHP_EOL);
       http_response_code(201);
       echo trim($bcc_dest);
-      exit;
+      //exit;
     }
   }
   if (!empty($from)) {
@@ -76,13 +76,13 @@ try {
       error_log("BCC MAP: returning ". $bcc_dest . " for " . $from . PHP_EOL);
       http_response_code(201);
       echo trim($bcc_dest);
-      exit;
+      //exit;
     }
   }
 }
 catch (PDOException $e) {
   error_log("BCC MAP SQL ERROR: " . $e->getMessage() . PHP_EOL);
   http_response_code(502);
-  exit;
+  //exit;
 }
 

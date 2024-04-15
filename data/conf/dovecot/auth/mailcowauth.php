@@ -1,5 +1,5 @@
 <?php
-ini_set('error_reporting', 0);
+// ini_set('error_reporting', 0);
 header('Content-Type: application/json');
 
 $post = trim(file_get_contents('php://input'));
@@ -12,8 +12,8 @@ $return = array("success" => false);
 if(!isset($post['username']) || !isset($post['password']) || !isset($post['real_rip'])){
   error_log("MAILCOWAUTH: Bad Request");
   http_response_code(400); // Bad Request
-  echo json_encode($return); 
-  exit();
+  echo json_encode($return);
+  //exit();
 }
 
 require_once('../../../web/inc/vars.inc.php');
@@ -35,8 +35,8 @@ try {
 catch (PDOException $e) {
   error_log("MAILCOWAUTH: " . $e . PHP_EOL);
   http_response_code(500); // Internal Server Error
-  echo json_encode($return); 
-  exit;
+  echo json_encode($return);
+  //exit;
 }
 
 // Load core functions first
@@ -57,7 +57,7 @@ if ($isSOGoRequest) {
     error_log('MAILCOWAUTH: SOGo SSO auth for user ' . $post['username']);
     $result = true;
   }
-  
+
 }
 if ($result === false){
   $result = apppass_login($post['username'], $post['password'], $protocol, array(
@@ -80,6 +80,6 @@ if ($result) {
 }
 
 
-echo json_encode($return); 
+echo json_encode($return);
 session_destroy();
-exit;
+//exit;

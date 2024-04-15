@@ -19,7 +19,7 @@ if (isset($_SESSION['mailcow_cc_role']) && ($_SESSION['mailcow_cc_role'] == "adm
     }
     else {
       echo "No such domain in context";
-      exit();
+      //exit();
     }
   }
 
@@ -453,6 +453,6 @@ if (isset($_SESSION['mailcow_cc_role']) && ($_SESSION['mailcow_cc_role'] == "adm
 }
 else {
   echo "Session invalid";
-  exit();
+  //exit();
 }
 ?>

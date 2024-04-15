@@ -4,7 +4,7 @@
 header('Content-Type: text/plain');
 require_once "vars.inc.php";
 // Do not show errors, we log to using error_log
-ini_set('error_reporting', 0);
+// ini_set('error_reporting', 0);
 // Init Redis
 $redis = new Redis();
 try {
@@ -16,7 +16,7 @@ try {
   }
 }
 catch (Exception $e) {
-  exit;
+  //exit;
 }
 
 $raw_data_content = file_get_contents('php://input');
@@ -44,5 +44,5 @@ $data['header_subject'] = implode(' ', $raw_data_decoded['header_subject']);
 $data['header_from'] = implode(', ', $raw_data_decoded['header_from']);
 
 $redis->lpush('RL_LOG', json_encode($data));
-exit;
+//exit;
 

@@ -9,7 +9,7 @@ try {
   }
 }
 catch (Exception $e) {
-  exit;
+  //exit;
 }
 header('Content-Type: application/json');
 echo '{"error":"Unauthorized"}';

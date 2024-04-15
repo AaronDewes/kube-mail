@@ -8,7 +8,7 @@ $DEMO_MODE = (getenv('DEMO_MODE') == 'y');
 // Slave does not serve UI
 /* if (!preg_match('/y|yes/i', getenv('MASTER'))) {
   header('Location: /SOGo', true, 307);
-  exit;
+  //exit;
 }*/
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/vars.inc.php';
@@ -73,7 +73,7 @@ http_response_code(500);
 ?>
 <center style='font-family:sans-serif;'>Connection to Redis failed.<br /><br />The following error was reported:<br/><?=$e->getMessage();?></center>
 <?php
-exit;
+//exit;
 }
 
 // PDO
@@ -102,7 +102,7 @@ http_response_code(500);
 ?>
 <center style='font-family:sans-serif;'>Connection to database failed.<br /><br />The following error was reported:<br/>  <?=$e->getMessage();?></center>
 <?php
-exit;
+//exit;
 }
 // Stop when dockerapi is not available
 if (fsockopen("tcp://dockerapi", 443, $errno, $errstr) === false) {
@@ -110,7 +110,7 @@ if (fsockopen("tcp://dockerapi", 443, $errno, $errstr) === false) {
 ?>
 <center style='font-family:sans-serif;'>Connection to dockerapi container failed.<br /><br />The following error was reported:<br/><?=$errno;?> - <?=$errstr;?></center>
 <?php
-exit;
+//exit;
 }
 
 // OAuth2
@@ -323,7 +323,7 @@ $UI_TEXTS = customize('get', 'ui_texts');
 if (file_exists('/web/css/themes/'.$UI_THEME.'-bootstrap.css'))
   $css_minifier->add('/web/css/themes/'.$UI_THEME.'-bootstrap.css');
 else
-  $css_minifier->add('/web/css/themes/lumen-bootstrap.css'); 
+  $css_minifier->add('/web/css/themes/lumen-bootstrap.css');
 // minify css build files
 foreach ($css_dir as $css_file) {
   $css_minifier->add('/web/css/build/' . $css_file);

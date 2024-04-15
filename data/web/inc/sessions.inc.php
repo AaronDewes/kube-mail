@@ -73,7 +73,7 @@ if (!empty($_SERVER['HTTP_X_API_KEY'])) {
         'msg' => 'api access denied for ip ' . $_SERVER['REMOTE_ADDR']
       ));
       unset($_POST);
-      exit();
+      //exit();
     }
   }
   else {
@@ -85,7 +85,7 @@ if (!empty($_SERVER['HTTP_X_API_KEY'])) {
       'msg' => 'authentication failed'
     ));
     unset($_POST);
-    exit();
+    //exit();
   }
 }
 
@@ -98,7 +98,7 @@ if (isset($_POST["logout"])) {
     unset($_SESSION['sogo-sso-pass']);
     unset($_SESSION["dual-login"]);
     header("Location: /mailbox");
-    exit();
+    //exit();
   }
   else {
     session_regenerate_id(true);

@@ -57,6 +57,6 @@ if (!function_exists('dd')) {
             }
         }
 
-        exit(1);
+        //exit(1);
     }
 }

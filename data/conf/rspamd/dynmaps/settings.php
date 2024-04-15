@@ -7,7 +7,7 @@ then any of these will trigger the rule. If a rule is triggered then no more rul
 header('Content-Type: text/plain');
 require_once "vars.inc.php";
 // Getting headers sent by the client.
-ini_set('error_reporting', 0);
+// ini_set('error_reporting', 0);
 
 //$dsn = $database_type . ':host=' . $database_host . ';dbname=' . $database_name;
 $dsn = $database_type . ":unix_socket=" . $database_sock . ";dbname=" . $database_name;
@@ -22,7 +22,7 @@ try {
 }
 catch (PDOException $e) {
   echo 'settings { }';
-  exit;
+  //exit;
 }
 
 // Check if db changed and return header
@@ -38,7 +38,7 @@ if (empty($db_update_time)) {
 }
 if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $db_update_time)) {
   header('Last-Modified: '.gmdate('D, d M Y H:i:s', $db_update_time).' GMT', true, 304);
-  exit;
+  //exit;
 } else {
   header('Last-Modified: '.gmdate('D, d M Y H:i:s', $db_update_time).' GMT', true, 200);
 }
@@ -56,7 +56,7 @@ function normalize_email($email) {
     $email = explode('@', $email);
     $email[0] = str_replace('.', '', $email[0]);
     $email = implode('@', $email);
-  } 
+  }
   $gm_alt = "@googlemail.com";
   if (substr_compare($email, $gm_alt, -strlen($gm_alt)) == 0) {
     $email = explode('@', $email);
@@ -114,7 +114,7 @@ function ucl_rcpts($object, $type) {
       $rcpt[] = str_replace('/', '\/', $row['address']);
     }
     // Aliases by alias domains
-    $stmt = $pdo->prepare("SELECT CONCAT(`local_part`, '@', `alias_domain`.`alias_domain`) AS `alias` FROM `mailbox` 
+    $stmt = $pdo->prepare("SELECT CONCAT(`local_part`, '@', `alias_domain`.`alias_domain`) AS `alias` FROM `mailbox`
       LEFT OUTER JOIN `alias_domain` ON `mailbox`.`domain` = `alias_domain`.`target_domain`
       WHERE `mailbox`.`username` = :object");
     $stmt->execute(array(
@@ -184,7 +184,7 @@ while ($row = array_shift($rows)) {
     rcpt = <?=json_encode($rcpt, JSON_UNESCAPED_SLASHES);?>;
 <?php
   }
-  $stmt = $pdo->prepare("SELECT `option`, `value` FROM `filterconf` 
+  $stmt = $pdo->prepare("SELECT `option`, `value` FROM `filterconf`
     WHERE (`option` = 'highspamlevel' OR `option` = 'lowspamlevel')
       AND `object`= :object");
   $stmt->execute(array(':object' => $row['object']));

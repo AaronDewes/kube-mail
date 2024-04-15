@@ -20,12 +20,12 @@ if (!isset($_GET['code'])) {
     $authUrl = $provider->getAuthorizationUrl();
     $_SESSION['oauth2state'] = $provider->getState();
     header('Location: '.$authUrl);
-    exit;
+    //exit;
 
 // Check given state against previously stored one to mitigate CSRF attack
 } elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
     unset($_SESSION['oauth2state']);
-    exit('Invalid state, make sure HTTP sessions are enabled.');
+    //exit('Invalid state, make sure HTTP sessions are enabled.');
 } else {
     // Try to get an access token (using the authorization coe grant)
     try {
@@ -33,7 +33,7 @@ if (!isset($_GET['code'])) {
             'code' => $_GET['code']
         ]);
     } catch (Exception $e) {
-        exit('Failed to get access token: '.$e->getMessage());
+        //exit('Failed to get access token: '.$e->getMessage());
     }
 
     // Optional: Now you have a token you can look up a users profile data
@@ -45,7 +45,7 @@ if (!isset($_GET['code'])) {
         printf('Hello %s!\n<br>', $user->getName());
 
     } catch (Exception $e) {
-        exit('Failed to get resource owner: '.$e->getMessage());
+        //exit('Failed to get resource owner: '.$e->getMessage());
     }
 
     // Use this to interact with an API on the users behalf

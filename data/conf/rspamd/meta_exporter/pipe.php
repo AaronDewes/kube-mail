@@ -4,7 +4,7 @@
 header('Content-Type: text/plain');
 require_once "vars.inc.php";
 // Do not show errors, we log to using error_log
-ini_set('error_reporting', 0);
+// ini_set('error_reporting', 0);
 // Init database
 //$dsn = $database_type . ':host=' . $database_host . ';dbname=' . $database_name;
 $dsn = $database_type . ":unix_socket=" . $database_sock . ";dbname=" . $database_name;
@@ -19,7 +19,7 @@ try {
 catch (PDOException $e) {
   error_log("QUARANTINE: " . $e . PHP_EOL);
   http_response_code(501);
-  exit;
+  //exit;
 }
 // Init Redis
 $redis = new Redis();
@@ -77,7 +77,7 @@ try {
   if (($max_size * 1048576) < $raw_size) {
     error_log(sprintf("QUARANTINE: Message too large: %d b exceeds %d b", $raw_size, ($max_size * 1048576)) . PHP_EOL);
     http_response_code(505);
-    exit;
+    //exit;
   }
   if ($exclude_domains = $redis->Get('Q_EXCLUDE_DOMAINS')) {
     $exclude_domains = json_decode($exclude_domains, true);
@@ -87,7 +87,7 @@ try {
 catch (RedisException $e) {
   error_log("QUARANTINE: " . $e . PHP_EOL);
   http_response_code(504);
-  exit;
+  //exit;
 }
 
 $rcpt_final_mailboxes = array();
@@ -96,10 +96,10 @@ $rcpt_final_mailboxes = array();
 foreach (json_decode($rcpts, true) as $rcpt) {
   // Remove tag
   $rcpt = preg_replace('/^(.*?)\+.*(@.*)$/', '$1$2', $rcpt);
-  
+
   // Break rcpt into local part and domain part
   $parsed_rcpt = parse_email($rcpt);
-  
+
   // Skip if not a mailcow handled domain
   try {
     if (!$redis->hGet('DOMAIN_MAP', $parsed_rcpt['domain'])) {
@@ -109,7 +109,7 @@ foreach (json_decode($rcpts, true) as $rcpt) {
   catch (RedisException $e) {
     error_log("QUARANTINE: " . $e . PHP_EOL);
     http_response_code(504);
-    exit;
+    //exit;
   }
 
   // Skip if domain is excluded
@@ -213,7 +213,7 @@ foreach (json_decode($rcpts, true) as $rcpt) {
   catch (PDOException $e) {
     error_log("RCPT RESOVLER: " . $e->getMessage() . PHP_EOL);
     http_response_code(502);
-    exit;
+    //exit;
   }
 }
 
@@ -243,7 +243,7 @@ foreach ($rcpt_final_mailboxes as $rcpt_final) {
         WHERE `rcpt` = :rcpt2
         ORDER BY id DESC
         LIMIT :retention_size
-      ) x 
+      ) x
     );');
     $stmt->execute(array(
       ':rcpt' => $rcpt_final,
@@ -254,7 +254,7 @@ foreach ($rcpt_final_mailboxes as $rcpt_final) {
   catch (PDOException $e) {
     error_log("QUARANTINE: " . $e->getMessage() . PHP_EOL);
     http_response_code(503);
-    exit;
+    //exit;
   }
 }
 

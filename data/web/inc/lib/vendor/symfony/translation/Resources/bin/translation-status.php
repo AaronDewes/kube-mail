@@ -57,7 +57,7 @@ $argv = $_SERVER['argv'];
 
 if ($argc > 4) {
     echo str_replace('translation-status.php', $argv[0], $usageInstructions);
-    exit(1);
+    //exit(1);
 }
 
 foreach (array_slice($argv, 1) as $argumentOrOption) {
@@ -76,7 +76,7 @@ foreach (array_slice($argv, 1) as $argumentOrOption) {
 foreach ($config['original_files'] as $originalFilePath) {
     if (!file_exists($originalFilePath)) {
         echo sprintf('The following file does not exist. Make sure that you execute this command at the root dir of the Symfony code repository.%s  %s', \PHP_EOL, $originalFilePath);
-        exit(1);
+        //exit(1);
     }
 }
 
@@ -93,7 +93,7 @@ foreach ($config['original_files'] as $originalFilePath) {
     printTranslationStatus($originalFilePath, $translationStatus, $config['verbose_output'], $config['include_completed_languages']);
 }
 
-exit($totalTranslationMismatches > 0 ? 1 : 0);
+//exit($totalTranslationMismatches > 0 ? 1 : 0);
 
 function findTranslationFiles($originalFilePath, $localeToAnalyze): array
 {

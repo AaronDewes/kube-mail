@@ -28,11 +28,11 @@ if (isset($_SERVER['PHP_AUTH_USER'])) {
     header("X-User: $username");
     header("X-Auth: Basic ".base64_encode("$username:$password"));
     header("X-Auth-Type: Basic");
-    exit;
+    //exit;
   } else {
     header('HTTP/1.0 401 Unauthorized');
     echo 'Invalid login';
-    exit;
+    //exit;
   }
 }
 // check permissions and redirect for direct GET ?login=xy requests
@@ -53,7 +53,7 @@ elseif (isset($_GET['login'])) {
         $_SESSION[$session_var_user_allowed][] = $login;
         $_SESSION[$session_var_pass] = $sogo_sso_pass;
         // set dual login
-        if ($_SESSION['acl']['login_as'] == "1" && $ALLOW_ADMIN_EMAIL_LOGIN !== 0 && $is_dual === false && $_SESSION['mailcow_cc_role'] != "user"){      
+        if ($_SESSION['acl']['login_as'] == "1" && $ALLOW_ADMIN_EMAIL_LOGIN !== 0 && $is_dual === false && $_SESSION['mailcow_cc_role'] != "user"){
           $_SESSION["dual-login"]["username"] = $_SESSION['mailcow_cc_username'];
           $_SESSION["dual-login"]["role"]     = $_SESSION['mailcow_cc_role'];
           $_SESSION['mailcow_cc_username']    = $login;
@@ -68,12 +68,12 @@ elseif (isset($_GET['login'])) {
         ));
         // redirect to sogo (sogo will get the correct credentials via nginx auth_request
         header("Location: /SOGo/so/{$login}");
-        exit;
+        //exit;
       }
     }
   }
   header("Location: /");
-  exit;
+  //exit;
 }
 // only check for admin-login on sogo GUI requests
 elseif (isset($_SERVER['HTTP_X_ORIGINAL_URI']) && strcasecmp(substr($_SERVER['HTTP_X_ORIGINAL_URI'], 0, 9), "/SOGo/so/") === 0) {
@@ -99,7 +99,7 @@ elseif (isset($_SERVER['HTTP_X_ORIGINAL_URI']) && strcasecmp(substr($_SERVER['HT
       header("X-User: $username");
       header("X-Auth: Basic ".base64_encode("$username:$password"));
       header("X-Auth-Type: Basic");
-      exit;
+      //exit;
     }
   }
 }

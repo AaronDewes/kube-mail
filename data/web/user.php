@@ -97,7 +97,7 @@ elseif (isset($_SESSION['mailcow_cc_role']) && $_SESSION['mailcow_cc_role'] == '
 }
 else {
   header('Location: /');
-  exit();
+  //exit();
 }
 
 $js_minifier->add('/web/js/site/user.js');

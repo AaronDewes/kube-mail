@@ -19,7 +19,7 @@ try {
   }
 }
 catch (Exception $e) {
-  exit;
+  //exit;
 }
 
 error_reporting(0);
@@ -66,7 +66,7 @@ if (empty($_SERVER['PHP_AUTH_USER']) || empty($_SERVER['PHP_AUTH_PW'])) {
   $redis->lPush('AUTODISCOVER_LOG', $json);
   header('WWW-Authenticate: Basic realm="' . $_SERVER['HTTP_HOST'] . '"');
   header('HTTP/1.0 401 Unauthorized');
-  exit(0);
+  //exit(0);
 }
 
 $login_role = check_login($login_user, $login_pass, array('eas' => TRUE));
@@ -109,7 +109,7 @@ if ($login_role === "user") {
   </Response>
 </Autodiscover>
 <?php
-    exit(0);
+    //exit(0);
   }
   try {
     $discover = new SimpleXMLElement($data);

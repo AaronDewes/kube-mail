@@ -20,7 +20,7 @@ try {
 catch (PDOException $e) {
   logMsg("err", $e->getMessage());
   session_destroy();
-  exit;
+  //exit;
 }
 
 // Init Redis
@@ -36,7 +36,7 @@ try {
 catch (Exception $e) {
   echo "Exiting: " . $e->getMessage();
   session_destroy();
-  exit;
+  //exit;
 }
 
 function logMsg($priority, $message, $task = "LDAP Sync") {
@@ -73,7 +73,7 @@ $_SESSION['acl']['unlimited_quota'] = "1";
 $iam_settings = identity_provider('get');
 if ($iam_settings['authsource'] != "ldap" || (intval($iam_settings['periodic_sync']) != 1 && intval($iam_settings['import_users']) != 1)) {
   session_destroy();
-  exit;
+  //exit;
 }
 
 // Set pagination variables
@@ -91,14 +91,14 @@ if (file_exists($lock_file)) {
     if ($elapsed_time < intval($iam_settings['sync_interval'])) {
       logMsg("warning", "Sync not ready (".number_format((float)$elapsed_time, 2, '.', '')."min / ".$iam_settings['sync_interval']."min)");
       session_destroy();
-      exit;
+      //exit;
     }
   }
 
   if (posix_kill($pid, 0)) {
     logMsg("warning", "Sync is already running");
     session_destroy();
-    exit;
+    //exit;
   } else {
     unlink($lock_file);
   }
